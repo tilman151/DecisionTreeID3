@@ -11,13 +11,6 @@ public class Instance {
 		this.classification = classification;
 	}
 	
-	public Instance(Instance org){
-		this.features = new ArrayList<String>();
-		for(int i = 0; i < org.getDimension(); i++)
-			this.features.add(org.getFeature(i));
-		this.classification = org.getClassification();
-	}
-	
 	public String getFeature(int index){
 		return features.get(index);
 	}
@@ -32,6 +25,14 @@ public class Instance {
 	
 	public String getClassification(){
 		return classification;
+	}
+	
+	public String toString(){
+		String res = "Instance( ";
+		for(String s : features)
+			res += s + ", ";
+		res += ") class: " + classification;
+		return res;
 	}
 	
 }
