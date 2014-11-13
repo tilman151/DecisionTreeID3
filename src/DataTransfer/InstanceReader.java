@@ -1,7 +1,11 @@
+package DataTransfer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import ID3Tree.Instance;
+import ID3Tree.Trainingset;
 
 public class InstanceReader {
 

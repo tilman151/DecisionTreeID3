@@ -1,4 +1,8 @@
+package Main;
 import java.util.ArrayList;
+
+import DataTransfer.InstanceReader;
+import ID3Tree.Trainingset;
 
 
 public class Main {
