@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 
 
+/**
+ * Training set for decision trees; contains instances, possible classes and domains of features
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class Trainingset {
 
 	private ArrayList<Instance> instances;
@@ -62,6 +68,11 @@ public class Trainingset {
 		return instances.size();
 	}
 	
+	/**
+	 * Checks if training set only contains one class
+	 * 
+	 * @return if set is homogen
+	 */
 	public boolean isHomogen(){
 		String classification = instances.get(0).getClassification();
 		for(int i = 0; i < instances.size(); i++){
@@ -71,6 +82,13 @@ public class Trainingset {
 		return true;
 	}
 	
+	/**
+	 * Computes the entropy of this training set
+	 * 
+	 * @param 
+	 * classCount number of classes
+	 * @return entropy
+	 */
 	public double getEntropy(int classCount){
 		HashMap<String,Integer> classes = new HashMap<String,Integer>();
 		for(Instance i : instances){
@@ -91,6 +109,15 @@ public class Trainingset {
 		return entropy;
 	}
 	
+	
+	/**
+	 * Splits the training set into smaller sets on a specified feature of the instances
+	 * 
+	 * @param 
+	 * feature feature to split at
+	 * 
+	 * @return List of training sets
+	 */
 	public ArrayList<Trainingset> splitAtFeature(int feature){
 		ArrayList<Trainingset> res = new ArrayList<Trainingset>();
 		for(int i = 0; i < domains.get(feature).size(); i++)

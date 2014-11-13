@@ -6,9 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ID3Tree.Domain;
-import ID3Tree.Instance;
-import ID3Tree.Trainingset;
 
+/**
+ * Reads the possible classes and the domains of the features from a file
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class MetaDataReader {
 
 	String name;
@@ -25,6 +29,11 @@ public class MetaDataReader {
 		this.name = name;
 	}
 
+	/**
+	 * Reads the classes from file
+	 * 
+	 * @return List of classes
+	 */
 	public ArrayList<String> readClasses() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(name));
@@ -62,6 +71,11 @@ public class MetaDataReader {
 		return res;
 	}
 
+	/**
+	 * Reads domains from file
+	 * 
+	 * @return list of domains
+	 */
 	public ArrayList<Domain> readDomains() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(name));

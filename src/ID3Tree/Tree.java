@@ -2,26 +2,53 @@ package ID3Tree;
 import java.util.ArrayList;
 
 
+/**
+ * Node for a decision tree; branches on a feature
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class Tree extends Node {
 
 	private int feature;
 	private Domain domain;
 	private Node[] branches;
 	
+	/**
+	 * Default constructor for tree class
+	 * 
+	 */
 	public Tree(){
 	}
 
+	/**
+	 * Classifies an instance
+	 * 
+	 * @param 
+	 * instance instance to be classified
+	 * 
+	 * @return classification of instance
+	 */
 	@Override
 	public String decide(Instance instance) {
 		String instanceFeature = instance.getFeature(feature);
 		int i = 0;
-		while(domain.getValue(i) != instanceFeature)
+		while(domain.getValue(i).compareTo(instanceFeature) != 0)
 			i++;
 		if(branches[i] == null)
 			return null;
 		return branches[i].decide(instance);
 	}
 	
+	
+	/**
+	 * Builds a decision tree from a training set; splits at a random feature
+	 * 
+	 * @param 
+	 * trainingset training set to be learned from
+	 * 
+	 * @return decision tree for training set
+	 */
 	public Node buildRandom(Trainingset trainingset){
 		if(trainingset.getEntropy(trainingset.getClassCount()) == 0.0){
 			return new Leaf(trainingset.getInstance(0).getClassification());
@@ -48,6 +75,14 @@ public class Tree extends Node {
 		}
 	}
 	
+	/**
+	 * Builds a decision tree from a training set; splits with ID3 strategy
+	 * 
+	 * @param 
+	 * trainingset training set to be learned from
+	 * 
+	 * @return decision tree for training set
+	 */
 	public Node buildID3(Trainingset trainingset){
 		if(trainingset.isHomogen()){
 			return new Leaf(trainingset.getInstance(0).getClassification());
@@ -74,6 +109,13 @@ public class Tree extends Node {
 		}
 	}
 	
+	/**
+	 * Selects the optimal feature to split at with computation of entropy
+	 * @param 
+	 * trainingset training set to be split
+	 * 
+	 * @return index of feature to be splitted on
+	 */
 	private int selectOptimalFeature(Trainingset trainingset){
 		double entropy0 = trainingset.getEntropy(trainingset.getClassCount());
 		int bestFeature = 0;

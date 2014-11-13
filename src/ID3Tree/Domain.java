@@ -1,5 +1,11 @@
 package ID3Tree;
 
+/**
+ * Domain of a feature
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class Domain {
 
 	private String name;

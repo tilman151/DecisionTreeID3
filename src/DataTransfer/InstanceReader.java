@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import ID3Tree.Instance;
 import ID3Tree.Trainingset;
 
+/**
+ * Reads the instances of a training set from a file
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class InstanceReader {
 
 	String name;
@@ -23,6 +29,11 @@ public class InstanceReader {
 		this.name = name;
 	}
 
+	/**
+	 * Reads instances from file
+	 * 
+	 * @return Training set of instances
+	 */
 	public Trainingset readInstances() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(name));

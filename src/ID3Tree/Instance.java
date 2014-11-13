@@ -2,6 +2,12 @@ package ID3Tree;
 import java.util.ArrayList;
 
 
+/**
+ * Tuple of features and an optional classification
+ * 
+ * @author Tilman & Tim
+ *
+ */
 public class Instance {
 
 	private ArrayList<String> features;
