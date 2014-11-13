@@ -1,5 +1,7 @@
 package ID3Tree;
 
+import java.util.HashMap;
+
 
 
 /**
@@ -10,6 +12,11 @@ package ID3Tree;
  */
 public abstract class Node {
 
+	public HashMap<String, Integer> classMemberCount;
+	public double entropy;
+	public int splitFeature;
+	public int splitValue;
+	
 	public abstract String decide(Instance instance);
 	
 }

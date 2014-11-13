@@ -1,5 +1,6 @@
 package ID3Tree;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -19,8 +20,16 @@ public class Tree extends Node {
 	 * 
 	 */
 	public Tree(){
+		this.splitFeature = -1;
 	}
 
+	public Tree(int splitFeature, int splitValue, double entropy, HashMap<String, Integer> classMemberCount){
+		this.splitFeature = splitFeature;
+		this.splitValue = splitValue;
+		this.entropy = entropy;
+		this.classMemberCount = classMemberCount;
+	}
+	
 	/**
 	 * Classifies an instance
 	 * 
@@ -40,41 +49,6 @@ public class Tree extends Node {
 		return branches[i].decide(instance);
 	}
 	
-	
-	/**
-	 * Builds a decision tree from a training set; splits at a random feature
-	 * 
-	 * @param 
-	 * trainingset training set to be learned from
-	 * 
-	 * @return decision tree for training set
-	 */
-	public Node buildRandom(Trainingset trainingset){
-		if(trainingset.getEntropy(trainingset.getClassCount()) == 0.0){
-			return new Leaf(trainingset.getInstance(0).getClassification());
-		}
-		else{
-			int splitAt = (int) (Math.random()*trainingset.getInstance(0).getDimension());
-			ArrayList<Trainingset> split = trainingset.splitAtFeature(splitAt);
-			
-			feature = splitAt;
-			domain = trainingset.getDomain(splitAt);
-			
-			branches = new Node[split.size()];
-			
-			for(int i = 0; i < split.size(); i++){
-				if(split.get(i).isEmpty()){
-					branches[i] = null;
-				}
-				else{
-					branches[i] = (new Tree()).buildRandom(split.get(i));
-				}
-			}
-			
-			return this;
-		}
-	}
-	
 	/**
 	 * Builds a decision tree from a training set; splits with ID3 strategy
 	 * 
@@ -85,7 +59,7 @@ public class Tree extends Node {
 	 */
 	public Node buildID3(Trainingset trainingset){
 		if(trainingset.isHomogen()){
-			return new Leaf(trainingset.getInstance(0).getClassification());
+			return new Leaf(trainingset.getInstance(0).getClassification(), splitFeature, splitValue, entropy, classMemberCount);
 		}
 		else{
 			int splitAt = selectOptimalFeature(trainingset);
@@ -101,7 +75,9 @@ public class Tree extends Node {
 					branches[i] = null;
 				}
 				else{
-					branches[i] = (new Tree()).buildID3(split.get(i));
+					double entropyBranch = split.get(i).getEntropy(split.get(i).getClassCount());
+					HashMap<String, Integer> classMemberCountBranch = split.get(i).getClassMemberCount();
+					branches[i] = (new Tree(splitAt, i, entropyBranch, classMemberCountBranch)).buildID3(split.get(i));
 				}
 			}
 			
@@ -117,7 +93,8 @@ public class Tree extends Node {
 	 * @return index of feature to be splitted on
 	 */
 	private int selectOptimalFeature(Trainingset trainingset){
-		double entropy0 = trainingset.getEntropy(trainingset.getClassCount());
+		//this.entropy = trainingset.getEntropy(trainingset.getClassCount());
+		
 		int bestFeature = 0;
 		double bestGain = 0;
 		
@@ -128,13 +105,17 @@ public class Tree extends Node {
 				double test = t.getEntropy(trainingset.getClassCount());
 				entropySplitSum += (double)(t.size())/(double)(trainingset.size())*test;
 			}
-			if(entropy0 - entropySplitSum > bestGain){
+			if(entropy - entropySplitSum > bestGain){
 				bestFeature = i;
-				bestGain = entropy0 - entropySplitSum;
+				bestGain = entropy - entropySplitSum;
 			}
 		}
 		
 		return bestFeature;
+	}
+	
+	public Node[] getBranches(){
+		return branches;
 	}
 	
 	public String toString(){

@@ -40,6 +40,10 @@ public class Trainingset {
 		this.classes = classes;
 	}
 	
+	public ArrayList<String> getClasses(){
+		return classes;
+	}
+	
 	public int getClassCount(){
 		return classes.size();
 	}
@@ -90,14 +94,7 @@ public class Trainingset {
 	 * @return entropy
 	 */
 	public double getEntropy(int classCount){
-		HashMap<String,Integer> classes = new HashMap<String,Integer>();
-		for(Instance i : instances){
-			if(classes.containsKey(i.getClassification())){
-				classes.put(i.getClassification(), classes.get(i.getClassification()) + 1);
-			}
-			else
-				classes.put(i.getClassification(), 1);
-		}
+		HashMap<String, Integer> classes = getClassMemberCount();
 		
 		double entropy = 0;
 		Collection<Integer> values = classes.values();
@@ -110,6 +107,18 @@ public class Trainingset {
 	}
 	
 	
+	public HashMap<String, Integer> getClassMemberCount() {
+		HashMap<String,Integer> classes = new HashMap<String,Integer>();
+		for(Instance i : instances){
+			if(classes.containsKey(i.getClassification())){
+				classes.put(i.getClassification(), classes.get(i.getClassification()) + 1);
+			}
+			else
+				classes.put(i.getClassification(), 1);
+		}
+		return classes;
+	}
+
 	/**
 	 * Splits the training set into smaller sets on a specified feature of the instances
 	 * 

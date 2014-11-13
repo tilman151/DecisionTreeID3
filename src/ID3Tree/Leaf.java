@@ -1,5 +1,9 @@
 package ID3Tree;
 
+import java.util.HashMap;
+
+import javax.print.attribute.HashAttributeSet;
+
 
 
 /**
@@ -18,8 +22,12 @@ public class Leaf extends Node {
 	 * @param 
 	 * classification classification for instance, which reach this leaf
 	 */
-	public Leaf(String classification){
+	public Leaf(String classification, int splitFeature, int splitValue, double entropy, HashMap<String, Integer> classMemberCount){
 		this.classification = classification;
+		this.splitFeature = splitFeature;
+		this.splitValue = splitValue;
+		this.entropy = entropy;
+		this.classMemberCount = classMemberCount;
 	}
 
 	@Override
