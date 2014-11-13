@@ -22,4 +22,12 @@ public class Domain {
 		return values.length;
 	}
 	
+	public String toString(){
+		String res = name + "(";
+		for(String s : values){
+			res += s + ",";
+		}
+		return res + ")";
+	}
+	
 }

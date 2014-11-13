@@ -84,7 +84,7 @@ public class Tree extends Node {
 			double entropySplitSum = 0;
 			for(Trainingset t : split){
 				double test = t.getEntropy(trainingset.getClassCount());
-				entropySplitSum += test;
+				entropySplitSum += (double)(t.size())/(double)(trainingset.size())*test;
 			}
 			if(entropy0 - entropySplitSum > bestGain){
 				bestFeature = i;

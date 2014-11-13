@@ -65,7 +65,7 @@ public class Trainingset {
 	public boolean isHomogen(){
 		String classification = instances.get(0).getClassification();
 		for(int i = 0; i < instances.size(); i++){
-			if(classification != instances.get(i).getClassification())
+			if(classification.compareTo(instances.get(i).getClassification()) != 0)
 				return false;
 		}
 		return true;
@@ -99,7 +99,7 @@ public class Trainingset {
 		for(Instance i : instances){
 			String instanceFeature = i.getFeature(feature);
 			int index = 0;
-			while(domains.get(feature).getValue(index) != instanceFeature)
+			while(domains.get(feature).getValue(index).compareTo(instanceFeature) != 0)
 				index++;
 			res.get(index).addInstance(i);
 		}

@@ -2,17 +2,27 @@ package Main;
 import java.util.ArrayList;
 
 import DataTransfer.InstanceReader;
+import DataTransfer.MetaDataReader;
+import ID3Tree.Domain;
 import ID3Tree.Trainingset;
+import ID3Tree.Tree;
 
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		InstanceReader input = new InstanceReader("./car.data");
 		Trainingset t = input.readInstances();
-		System.out.println(t.getRandomInstance());
+		
+		MetaDataReader meta = new MetaDataReader("./car.c45-names");
+		ArrayList<Domain> d = meta.readDomains();
+		ArrayList<String> c = meta.readClasses();
+		
+		t.setClasses(c);
+		t.setDomains(d);
+		Tree tree = (Tree)(new Tree().buildID3(t));
+		System.out.println(tree);
 	}
 
 }
