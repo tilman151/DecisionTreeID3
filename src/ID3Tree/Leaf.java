@@ -2,9 +2,6 @@ package ID3Tree;
 
 import java.util.HashMap;
 
-import javax.print.attribute.HashAttributeSet;
-
-
 
 /**
  * Node class for a decision tree; contains a classification

@@ -44,6 +44,10 @@ public class Trainingset {
 		return classes;
 	}
 	
+	public ArrayList<Domain> getDomains(){
+		return domains;
+	}
+	
 	public int getClassCount(){
 		return classes.size();
 	}

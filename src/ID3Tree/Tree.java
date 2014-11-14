@@ -118,6 +118,10 @@ public class Tree extends Node {
 		return branches;
 	}
 	
+	public Domain getDomain(){
+		return domain;
+	}
+	
 	public String toString(){
 		String res = feature + " --> \n";
 		for(Node n : branches){

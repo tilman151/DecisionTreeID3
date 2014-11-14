@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import DataTransfer.InstanceReader;
 import DataTransfer.MetaDataReader;
+import DataTransfer.TreeToXMLWriter;
 import ID3Tree.Domain;
 import ID3Tree.Trainingset;
 import ID3Tree.Tree;
@@ -22,7 +23,10 @@ public class Main {
 		t.setClasses(c);
 		t.setDomains(d);
 		Tree tree = (Tree)(new Tree().buildID3(t));
-		System.out.println(tree);
+		//System.out.println(tree);
+		
+		TreeToXMLWriter writer = new TreeToXMLWriter(t, "result.xml");
+		writer.writeXMLFile(tree);
 	}
 
 }
