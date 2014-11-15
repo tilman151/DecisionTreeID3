@@ -25,7 +25,7 @@ public class Main {
 		Tree tree = (Tree)(new Tree().buildID3(t));
 		//System.out.println(tree);
 		
-		TreeToXMLWriter writer = new TreeToXMLWriter(t, "result.xml");
+		TreeToXMLWriter writer = new TreeToXMLWriter("result.xml");
 		writer.writeXMLFile(tree);
 	}
 

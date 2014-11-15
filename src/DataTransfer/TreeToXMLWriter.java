@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 import ID3Tree.Domain;
 import ID3Tree.Leaf;
 import ID3Tree.Node;
-import ID3Tree.Trainingset;
 import ID3Tree.Tree;
 
 public class TreeToXMLWriter {
@@ -28,10 +27,8 @@ public class TreeToXMLWriter {
 	private Document doc;
 	private Transformer transformer;
 	private StreamResult result;
-	// TODO find better solution
-	private Trainingset t;
 
-	public TreeToXMLWriter(Trainingset t, String destination) {
+	public TreeToXMLWriter(String destination) {
 
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
@@ -52,15 +49,13 @@ public class TreeToXMLWriter {
 		}
 
 		result = new StreamResult(new File(destination));
-
-		this.t = t;
 	}
 
 	public void writeXMLFile(Tree tree) {
 
 		System.out.println("Writing decision tree to file...");
 
-		iterateNodes(null, tree);
+		iterateNodes(null, null, tree);
 
 		try {
 			DOMSource source = new DOMSource(doc);
@@ -74,23 +69,23 @@ public class TreeToXMLWriter {
 
 	}
 
-	private void iterateNodes(Element parent, Node node) {
+	private void iterateNodes(Element parent, Tree parentNode, Node node) {
 
-		Element element = transformNode(parent, node);
+		Element element = transformNode(parent, parentNode, node);
 
 		if (node instanceof Leaf)
 			return;
 
 		for (Node n : ((Tree) node).getBranches()) {
-			iterateNodes(element, n);
+			iterateNodes(element, (Tree) node, n);
 		}
 
 	}
 
-	private Element transformNode(Element parent, Node n) {
+	private Element transformNode(Element parentElement, Tree parentNode, Node n) {
 
 		Element element;
-		if (parent == null)
+		if (parentElement == null)
 			element = doc.createElement("tree");
 		else
 			element = doc.createElement("node");
@@ -101,28 +96,23 @@ public class TreeToXMLWriter {
 
 		if (n instanceof Leaf)
 			element.setTextContent(n.toString());
-		else
-			element.setAttribute("attr1", ((Tree) n).getDomain().getName());
 
-		if (parent != null) {
+		if (parentNode != null) {
 			// find domain of parent node
-			Domain d = t.getDomain(n.splitFeature);
-			element.setAttribute("attr2", d.getValue(n.splitValue));
+			Domain d = parentNode.getDomain();
+			element.setAttribute(d.getName(), d.getValue(n.splitValue));
 		}
 
-		if (parent == null)
+		if (parentElement == null)
 			doc.appendChild(element);
 		else
-			parent.appendChild(element);
+			parentElement.appendChild(element);
 
 		return element;
 	}
 
 	private static String parseHashMapToString(
 			HashMap<String, Integer> classMemberCount) {
-		// TODO remove
-		if (classMemberCount == null)
-			return "Dummy";
 
 		String classes = "";
 
