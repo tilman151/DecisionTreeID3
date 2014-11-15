@@ -93,7 +93,10 @@ public class Tree extends Node {
 	 * @return index of feature to be splitted on
 	 */
 	private int selectOptimalFeature(Trainingset trainingset){
-		//this.entropy = trainingset.getEntropy(trainingset.getClassCount());
+		if(splitFeature == -1){
+			this.entropy = trainingset.getEntropy(trainingset.getClassCount());
+			this.classMemberCount = trainingset.getClassMemberCount();
+		}
 		
 		int bestFeature = 0;
 		double bestGain = 0;
