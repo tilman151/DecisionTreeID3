@@ -22,6 +22,13 @@ import ID3Tree.Leaf;
 import ID3Tree.Node;
 import ID3Tree.Tree;
 
+/**
+ * XML writer for a decision tree
+ * 
+ * @author Tilman & Tim
+ *
+ */
+
 public class TreeToXMLWriter {
 
 	private Document doc;
